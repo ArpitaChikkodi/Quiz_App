@@ -24,3 +24,11 @@
     padding: 1.5rem;
     width: 100%;
 }
+
+.correct {
+    background: #28a745;
+}
+
+.incorrect {
+    background: #dc3545;
+}
