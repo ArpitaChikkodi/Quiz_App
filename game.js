@@ -17,14 +17,32 @@ availableQuestions = [];
 
 let questions = [];
 
-fetch("questions.json")
+// OpenTrivia DB API
+fetch("https://opentdb.com/api.php?amount=10&category=9&difficulty=easy&type=multiple")
 .then(res => {
     // console.log(res);
     return res.json();
 }).then( loadedQuestions => {
-    console.log(loadedQuestions);
+    console.log(loadedQuestions.results);
+    questions = loadedQuestions.results.map( loadedQuestion => {
+        const formattedQuestion = {
+            question: loadedQuestion.question
+        };
 
-    questions = loadedQuestions;
+        const answerChoices = [...loadedQuestion.incorrect_answers];
+        formattedQuestion.answer = Math.floor(Math.random() * 3) + 1;
+        // -1 because index begins from 0
+        answerChoices.splice(formattedQuestion.answer - 1, 0, 
+            loadedQuestion.correct_answer);
+
+        answerChoices.forEach((choice,index) => {
+            // to display as choice1, choice2 (+1 because here index starts from 0)
+            formattedQuestion["choice" + (index+1)] = choice;
+        })
+
+        return formattedQuestion;
+    });
+    
     startGame();
 })
 .catch( err => {
