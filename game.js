@@ -8,6 +8,8 @@ const progressText = document.getElementById('progressText');
 const scoreText = document.getElementById('score');
 
 const progressBarFillText = document.getElementById('progressBarFill');
+const loader = document.getElementById('loader');
+const game = document.getElementById('game');
 
 let currentQuestion = {};
 let acceptingAnswers = true;
@@ -18,7 +20,7 @@ availableQuestions = [];
 let questions = [];
 
 // OpenTrivia DB API
-fetch("https://opentdb.com/api.php?amount=10&category=9&difficulty=easy&type=multiple")
+fetch("https://opentdb.com/api.php?amount=10&category=18&difficulty=medium&type=multiple")
 .then(res => {
     // console.log(res);
     return res.json();
@@ -60,6 +62,8 @@ startGame = () => {
     availableQuestions = [...questions];
     console.log(availableQuestions);
     getNewQuestion();
+    game.classList.remove("hidden");
+    loader.classList.add("hidden");
 };
 
 getNewQuestion = () => {
